@@ -1,0 +1,39 @@
+{
+  "name": "sankhya-rd-integration[DEV CONTAINER: GOLEV]",
+  "dockerComposeFile": "../docker-compose.yml",
+  "service": "app",
+  "workspaceFolder": "/app",
+  "shutdownAction": "stopCompose",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-vscode.node-debug2",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "eamodio.gitlens"
+      ],
+      "settings": {
+        "terminal.integrated.shell.linux": "/bin/sh"
+      }
+    }
+  },
+  "runArgs": [
+    "--env-file", ".env"
+  ],
+  "forwardPorts": [
+    3000, 
+    5432, 
+    6379
+  ],
+  "postCreateCommand": "echo 'Post create command executed'",
+  "postStartCommand": "docker-compose up -d",
+  "containerEnv": {
+    "DATABASE_URL": "postgresql://integration_user:integration_pass@postgres:5432/integration_db",
+    "REDIS_HOST": "redis",
+    "REDIS_PORT": "6379"
+  },
+  "workspaceMount": "source=${localWorkspaceFolder},target=/app,type=bind",
+  "volumes": [
+    "postgres_data:/var/lib/postgresql/data"
+  ]
+}
